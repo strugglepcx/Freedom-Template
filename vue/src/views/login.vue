@@ -3,67 +3,73 @@
 </style>
 
 <template>
-    <div class="login" @keydown.enter="handleSubmit">
-        <div class="login-con">
-            <el-card :bordered="false">
-              <el-row>
-                <el-col :span="20">
-                <p>
-                    <Icon type="log-in"></Icon>
-                    <span v-if="isMultiTenancyEnabled" class="multi-tenancy">{{'CurrentTenant'|l}}:<span v-if="tenant" class="tenant-name"> {{tenant.name}}</span><span v-if="!tenant"> {{'NotSelected'|l}}</span></span>
-                </p></el-col>
-                <el-col :span="4">
-                <a href="#" @click="showChangeModal">
-                   {{'Change'|l}}
-                </a></el-col>
-              </el-row>
-                <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
-                        <FormItem prop="userNameOrEmailAddress">
-                            <Input v-model="form.userNameOrEmailAddress" :placeholder="'UserNameOrEmail'|l">
-                                <span slot="prepend">
-                                    <Icon :size="16" type="person"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" :placeholder="'Password'|l">
-                                <span slot="prepend">
-                                    <Icon :size="14" type="locked"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <div style="margin-bottom:10px">
-                            <Checkbox v-model="form.rememberClient">{{'RememberMe'|l}}</Checkbox>
-                        </div>
-                        <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>{{'LogIn'|l}}</Button>
-                        </FormItem>
-                    </Form>
-                    <div>
-                        <ul class="language-ul">
-                            <li v-for="language in languages" v-if="language.displayName!==currentLanguage.displayName" @click="changeLanguage(language.name)">
-                                <Tooltip :content="language.displayName" placement="bottom"><a><i :class="language.icon"></i></a></Tooltip>
-                            </li>
-                        </ul>
-                    </div>
-                    <p class="login-tip">{{'PleaseEnterLoginInformation'|l}}</p>
-                </div>
-            </el-card>
+  <div class="login" @keydown.enter="handleSubmit">
+    <div class="login-con">
+      <el-card :bordered="false">
+        <el-row>
+          <el-col :span="20">
+            <p>
+              <Icon type="log-in"></Icon>
+              <span v-if="isMultiTenancyEnabled" class="multi-tenancy">{{'CurrentTenant'|l}}:
+                <span v-if="tenant" class="tenant-name"> {{tenant.name}}</span>
+                <span v-if="!tenant"> {{'NotSelected'|l}}</span>
+              </span>
+            </p>
+          </el-col>
+          <el-col :span="4">
+            <a href="#" @click="showChangeModal">
+              {{'Change'|l}}
+            </a>
+          </el-col>
+        </el-row>
+        <div class="form-con">
+          <el-form ref="loginForm" :model="form" :rules="rules">
+            <el-form-item>
+              <el-input v-model="form.userNameOrEmailAddress" :placeholder="'UserNameOrEmail'|l">
+                <span>
+                  <i class="ion-person"></i>
+                </span>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input type="password" v-model="form.password" :placeholder="'Password'|l">
+                <span>
+                  <i class="ion-locked"></i>
+                </span>
+              </el-input>
+            </el-form-item>
+            <div style="margin-bottom:10px">
+              <el-checkbox v-model="form.rememberClient">{{'RememberMe'|l}}</el-checkbox>
+            </div>
+            <el-form-item>
+              <el-button @click="handleSubmit" type="primary" style="width:100%;">{{'LogIn'|l}}</el-button>
+            </el-form-item>
+          </el-form>
+          <div>
+            <ul class="language-ul">
+              <li v-for="language in languages" v-if="language.displayName!==currentLanguage.displayName" @click="changeLanguage(language.name)">
+                <el-tooltip :content="language.displayName" placement="bottom">
+                  <a>
+                    <i :class="language.icon"></i>
+                  </a>
+                </el-tooltip>
+              </li>
+            </ul>
+          </div>
+          <p class="login-tip">{{'PleaseEnterLoginInformation'|l}}</p>
         </div>
-        <Modal
-         :title="'ChangeTenant'|l"
-         v-model="modalShow"
-         @on-ok="changeTenant"
-        >
-             <Input :placeholder="'TenancyName' | l" v-model="changedTenancyName"></Input>
-             <p>{{'LeaveEmptyToSwitchToHost' | l}}</p>
-             <div slot="footer">
-                <Button @click="modalShow=false">{{'Cancel'|l}}</Button>
-                <Button @click="changeTenant" type="primary">{{'Save'|l}}</Button>
-             </div>
-        </Modal>
+      </el-card>
     </div>
+    <el-dialog :title="'ChangeTenant'|l" :visible.sync="modalShow" @on-ok="changeTenant">
+      <el-input :placeholder="'TenancyName' | l" v-model="changedTenancyName">
+      </el-input>
+      <p>{{'LeaveEmptyToSwitchToHost' | l}}</p>
+      <div slot="footer">
+        <el-button @click="modalShow=false">{{'Cancel'|l}}</el-button>
+        <el-button @click="changeTenant" type="primary">{{'Save'|l}}</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -155,9 +161,11 @@ export default {
     async handleSubmit() {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.$Message.loading({
-            content: this.L("PleaseWait"),
-            duration: 0
+          const loading = this.$loading({
+            lock: true,
+            text: this.L("PleaseWait"),
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
           });
 
           let self = this;
@@ -168,20 +176,21 @@ export default {
               data: self.form
             })
             .then(
-              response => {
-                Cookies.set(
-                  "userNameOrEmailAddress",
-                  self.form.userNameOrEmailAddress
-                );
-                location.reload();
-              },
-              error => {
-                this.$Modal.error({
-                  title: "",
-                  content: "Login failed !"
-                });
-                this.$Message.destroy();
-              }
+            response => {
+              Cookies.set(
+                "userNameOrEmailAddress",
+                self.form.userNameOrEmailAddress
+              );
+              location.reload();
+            },
+            error => {
+              // this.$alert('登录失败', '错误', {
+              //   confirmButtonText: '确定',
+              //   type:'error',
+              // });
+
+              loading.close();
+            }
             );
         }
       });

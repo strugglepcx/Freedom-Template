@@ -1,8 +1,12 @@
 import Vue from 'vue';
 import iView from 'iview';
 import ElementUI from 'element-ui';
-import { router } from './router/index';
-import { appRouter } from './router/router';
+import {
+    router
+} from './router/index';
+import {
+    appRouter
+} from './router/router';
 import store from './store';
 import App from './app.vue';
 import '@/locale';
@@ -18,7 +22,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     Vue.use(ElementUI);
 
     window.abp = $.extend(true, abp, result.data.result);
-    
+
     Vue.prototype.L = function (text, ...args) {
         let localizedText = window.abp.localization.localize(text, AppConsts.localization.defaultLocalizationSourceName);
         if (!localizedText) {
@@ -86,10 +90,10 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             };
 
             abp.message.error = (message, title) => {
-                this.$Modal.error({
-                    title: title,
-                    content: message
-                })
+                this.$alert(message, title, {
+                    confirmButtonText: '确定',
+                    type: 'error',
+                });
             };
 
             abp.message.confirm = (message, titleOrCallback, callback) => {
@@ -101,7 +105,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                 } else if (titleOrCallback) {
                     userOpts.title = titleOrCallback;
                 };
-                userOpts.onOk = callback || function () { };
+                userOpts.onOk = callback || function () {};
                 this.$Modal.confirm(userOpts);
             }
 
