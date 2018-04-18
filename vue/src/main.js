@@ -1,28 +1,21 @@
 import Vue from 'vue';
 import iView from 'iview';
-import ElementUI from 'element-ui';
-import {
-    router
-} from './router/index';
-import {
-    appRouter
-} from './router/router';
+import { router } from './router/index';
+import { appRouter } from './router/router';
 import store from './store';
 import App from './app.vue';
 import '@/locale';
 import 'iview/dist/styles/iview.css';
-import 'element-ui/lib/theme-chalk/index.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
-import AppConsts from './libs/appconst';
+import AppConsts from './libs/appconst'
 
 util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     Vue.use(VueI18n);
     Vue.use(iView);
-    Vue.use(ElementUI);
 
     window.abp = $.extend(true, abp, result.data.result);
-
+    
     Vue.prototype.L = function (text, ...args) {
         let localizedText = window.abp.localization.localize(text, AppConsts.localization.defaultLocalizationSourceName);
         if (!localizedText) {
@@ -32,11 +25,11 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             return localizedText;
         }
         args.unshift(localizedText);
-        return abp.utils.formatString.apply(this, args);
-    };
+        return abp.utils.formatString.apply(this, args)
+    }
 
     Vue.filter('l', function (value) {
-        if (!value) return '';
+        if (!value) return ''
         return window.abp.localization.localize(value, AppConsts.localization.defaultLocalizationSourceName);
     });
 
@@ -90,10 +83,10 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             };
 
             abp.message.error = (message, title) => {
-                this.$alert(message, title, {
-                    confirmButtonText: '确定',
-                    type: 'error',
-                });
+                this.$Modal.error({
+                    title: title,
+                    content: message
+                })
             };
 
             abp.message.confirm = (message, titleOrCallback, callback) => {
@@ -105,7 +98,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                 } else if (titleOrCallback) {
                     userOpts.title = titleOrCallback;
                 };
-                userOpts.onOk = callback || function () {};
+                userOpts.onOk = callback || function () { };
                 this.$Modal.confirm(userOpts);
             }
 
