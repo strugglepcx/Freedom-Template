@@ -5,6 +5,10 @@
     <text name="About" value="关于我们" />
     <text name="WellcomeMessage" value="欢迎使用 Template!" />
     
+    <text name="CurrentTenant">当前租户</text>
+    <text name="NotSelected">没有选择</text>
+    <text name="Change">选择</text>
+    <text name="ThisFieldIsRequired">这个字段必填</text>
     <text name="FormIsNotValidMessage" value="部分输入信息不符合要求，请检查并改正.." />
     <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
 
@@ -20,6 +24,20 @@
     <text name="LogIn" value="登录" />
 
     <text name="LoginFailed" value="登录失败!" />
-    
+    <text name="PleaseWait" value="请等待..." />
+    <text name="Tenants" value="租户管理" />
+    <text name="Users" value="用户管理" />
+    <text name="Roles" value="角色管理" />
+    <text name="ClearAll">关闭所有</text>
+    <text name="ClearOthers">关闭其他</text>
+    <text name="LabelOptions">标签选项</text>
+    <text name="Administration">管理员</text>
+    <text name="Name" value="名称" />
+    <text name="IsActive" value="是否激活" />
+    <text name="Actions">操作</text>
+    <text name="Edit">编辑</text>
+    <text name="Delete">删除</text>
+    <text name="Refresh">刷新</text>
+	  <text name="Create">新建</text>
   </texts>
 </localizationDictionary>

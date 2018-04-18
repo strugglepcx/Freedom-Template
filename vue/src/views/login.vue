@@ -36,7 +36,7 @@
                             <Button @click="handleSubmit" type="primary" long>{{'LogIn'|l}}</Button>
                         </FormItem>
                     </Form>
-                    <div>
+                    <div v-if="false">
                         <ul class="language-ul">
                             <li v-for="language in languages" v-if="language.displayName!==currentLanguage.displayName" @click="changeLanguage(language.name)">
                                 <Tooltip :content="language.displayName" placement="bottom"><a><i :class="language.icon"></i></a></Tooltip>
