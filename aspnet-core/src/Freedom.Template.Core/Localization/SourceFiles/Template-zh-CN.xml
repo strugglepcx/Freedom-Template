@@ -39,5 +39,27 @@
     <text name="Delete">删除</text>
     <text name="Refresh">刷新</text>
 	  <text name="Create">新建</text>
+
+    <text name="EditTenant">编辑租户</text>
+    <text name="CreateNewTenant" value="创建租户" />
+    <text name="DatabaseConnectionString" value="数据库连接字符串" />
+    <text name="AdminEmailAddress" value="管理员Email" />
+    <text name="DefaultPasswordIs" value="默认密码是 {0}" />
+    <text name="Optional" value="选项" />
+    <text name="LeaveEmptyToSwitchToHost">空表示主机</text>
+    <text name="ChangeTenant">选择租户</text>
+    <text name="Save" value="保存" />
+    <text name="Cancel" value="取消" />
+    <text name="Logout" value="注销" />
+    <text name="UserName" value="用户名" />
+    <text name="FullName" value="全名" />
+    <text name="EmailAddress" value="邮箱" />
+    <text name="Surname" value="姓氏" />
+    <text name="UserDetails">用户信息</text>
+	  <text name="UserRoles">用户角色</text>
+    <text name="RoleName">角色名称</text>
+    <text name="DisplayName">显示名称</text>
+    <text name="RoleDescription">角色描述</text>
+    <text name="Permissions">权限</text>
   </texts>
 </localizationDictionary>

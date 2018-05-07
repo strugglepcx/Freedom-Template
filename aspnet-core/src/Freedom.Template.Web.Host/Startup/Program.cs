@@ -14,7 +14,6 @@ namespace Freedom.Template.Web.Host.Startup
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:21021")
                 .Build();
         }
     }
