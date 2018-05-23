@@ -16,9 +16,10 @@ using System;
 namespace Freedom.Template.Migrations
 {
     [DbContext(typeof(TemplateDbContext))]
-    partial class TemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180513145824_AddProject")]
+    partial class AddProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -999,25 +1000,9 @@ namespace Freedom.Template.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<Guid>("ProjectTypeId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectTypeId");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("Freedom.Template.Domain.ProjectType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjectTypes");
                 });
 
             modelBuilder.Entity("Freedom.Template.MultiTenancy.Tenant", b =>
@@ -1218,14 +1203,6 @@ namespace Freedom.Template.Migrations
                     b.HasOne("Freedom.Template.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
-                });
-
-            modelBuilder.Entity("Freedom.Template.Domain.Project", b =>
-                {
-                    b.HasOne("Freedom.Template.Domain.ProjectType", "ProjectType")
-                        .WithMany()
-                        .HasForeignKey("ProjectTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Freedom.Template.MultiTenancy.Tenant", b =>

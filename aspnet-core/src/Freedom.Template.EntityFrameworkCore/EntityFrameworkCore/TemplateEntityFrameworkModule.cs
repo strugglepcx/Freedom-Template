@@ -3,11 +3,14 @@ using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
 using Freedom.Template.EntityFrameworkCore.Seed;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Freedom.Template.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(TemplateCoreModule), 
+        typeof(TemplateCoreModule),
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
     public class TemplateEntityFrameworkModule : AbpModule
     {
@@ -30,6 +33,12 @@ namespace Freedom.Template.EntityFrameworkCore
                     {
                         TemplateDbContextConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
                     }
+                    options.DbContextOptions.UseLoggerFactory(new LoggerFactory(new[]
+                    {
+                        new ConsoleLoggerProvider((category, level)
+                            => category == DbLoggerCategory.Database.Command.Name
+                               && level == LogLevel.Information, true)
+                    }));
                 });
             }
         }
